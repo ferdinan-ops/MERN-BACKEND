@@ -1,0 +1,171 @@
+STANDART API
+
+[METHOD]: {root.api}/{version}/{grouping}/{endpoint}
+Sample:
+http://mern-api.ferdinan.com/v1/auth/login
+
+===========================================================================================================================
+
+STANDART STATUS RESPONSE
+200 - OK                      --> Call API Success
+201 - CREATED                 --> Post Success
+400 - BAD REQUEST             --> Error on client side (Bisa input salah dll)
+401 - UNAUTHORIZED            --> User not authorized to the request
+403 - FORBIDDEN               --> User not allowed to access
+404 - NOT FOUND               --> Request endpoint not found
+500 - INTERNAL SERVER ERROR   --> Error on server side
+502 - BAD GATEWAY             --> Invalid response from another request
+
+===========================================================================================================================
+
+GROUP: AUTHENTICATION
+[1] - Register
+      [POST]: {root.api}/{version}/auth/Register
+
+      req: {
+         "username": "Testing",
+         "email": "email@domain.com",
+         "password": "121212"
+      }
+
+      res: {
+         message: "Register Successfully",
+         data: {
+            "id": 1,
+            "username": "Testing",
+            "email": "email@domain.com",
+            "password": "121212"
+         }
+      }
+
+      error-response: 
+      201 -> Register Berhasil
+      400 -> Input yang anda masukkan tidak valid
+
+===========================================================================================================================
+
+GROUP: AUTHENTICATION
+[2] - Login 
+      [POST]: {root.api}/{version}/auth/login
+
+      req: {
+         "email": "email@domain.com",
+         "password": "121212"
+      }
+
+      res: {
+         message: "Login Successfully",
+         data: {
+            "id": 1,
+            "username": "Testing",
+            "token": "email@domain.com",
+         }
+      }
+
+      error-response:
+      200 -> Login Berhasil
+      400 -> Input yang anda masukkan tidak valid
+
+===========================================================================================================================
+
+GROUP: BLOG
+[1] - Create Blog
+      [POST]: {root.api}/{version}/blog/post
+
+      req: {
+         "title": "Title Blog",
+         "image": "imageFile.jpg",
+         "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro?"
+      }
+
+      res: {
+         message: "Blog Created Successfully",
+         data: {
+            "post_id": 1,
+            "title": "Title Blog",
+            "image": "imageFile.jpg",
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro?",
+            "created_at": "12/10/2020",
+            "author": {
+               "id": 1,
+               "name": "Testing",
+            }
+         }
+      }
+
+      error-response:
+      
+===========================================================================================================================
+
+GROUP: BLOG
+[2] - Get Blog
+      [GET]: {root.api}/{version}/blog/get
+
+      req: {
+
+      }
+
+      res: {
+         message: "Get All Blog Successfully",
+         data: [
+            {
+               "post_id": 1
+               "title": "Title Blog",
+               "image": "imageFile.jpg",
+               "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro?",
+               "created_at": "12/10/2020",
+               "author": {
+                  "id": 1,
+                  "name": "Testing",
+               }
+            }
+         ]
+      }
+
+      error-response:
+      201 -> Blog Post Berhasil Dibuat
+      400 -> Input yang Anda masukkan tidak valid
+
+===========================================================================================================================
+
+GROUP: BLOG
+[3] - Update Blog
+      [PUT]: {root.api}/{version}/blog/put
+
+      req: {
+         "post_id": 1
+         "title": "Title Blog",
+         "image": "imageFile.jpg",
+         "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro?",
+      }
+
+      res: {
+         message: "Blog Updated Successfully",
+         data: {
+            "post_id": 1
+            "title": "Title Blog",
+            "image": "imageFile.jpg",
+            "body": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro?",
+            "created_at": "12/10/2020",
+            "author": {
+               "id": 1,
+               "name": "Testing",
+            }
+         }
+      }
+
+      error-response:
+
+===========================================================================================================================
+
+GROUP: BLOG
+[4] - Delete Blog
+      [DELETE]: {root.api}/{version}/blog/delete
+
+      req: { "post_id": 1 }
+
+      res: { message: "Blog Deleted Successfully" }
+
+      error-response:
+
+===========================================================================================================================
