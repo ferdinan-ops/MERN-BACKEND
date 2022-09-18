@@ -1,28 +1,19 @@
-const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const express = require("express");
+const cors = require("cors");
 require("dotenv").config();
 
 const server = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
+
+// make req.body is json and CORS POLICY
+server.use(bodyParser.json());
+server.use(cors());
 
 // all routes
 const authRoutes = require("./src/routes/auth");
 const blogRoutes = require("./src/routes/blog");
-
-// make req.body is json
-server.use(bodyParser.json());
-
-// handle Web CORS POLICY
-server.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
 
 // endpoint url route
 server.use("/v1/auth/", authRoutes);
@@ -36,15 +27,22 @@ server.use((error, req, res, next) => {
   next();
 });
 
-// mongoose connection
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(() => {
-    // listening server
-    server.listen(port, () =>
-      console.log(`Server is listening on http://localhost:${port}`)
-    );
-  })
-  .catch((err) => {
-    console.log(err);
+// MongoDB Connection
+mongoose.connect(process.env.MONGODB_URL).then(() => {
+  server.listen(port, () => {
+    console.log(`Example server listening at http://localhost:${port}`);
   });
+});
+
+// mongoose connection
+// mongoose
+//   .connect(process.env.MONGODB_URL)
+//   .then(() => {
+//     // listening server
+//     server.listen(port, () =>
+//       console.log(`Server is listening on http://localhost:${port}`)
+//     );
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
