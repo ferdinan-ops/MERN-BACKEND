@@ -9,17 +9,18 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     cb(null, uuidv4() + "-" + Date.now() + path.extname(file.originalname));
   },
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    if (ext !== ".jpg" && ext !== ".png" && ext !== ".jpeg" && ext !== ".gif") {
+      return cb(
+        res.status(400).end("only jpg, png, jpeg, gif is allowed"),
+        false
+      );
+    }
+    cb(null, true);
+  },
 });
 
-const fileFilter = (req, file, cb) => {
-  const allowedFileTypes = ["images/jpeg", "images/jpg", "images/png"];
-  if (allowedFileTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-
-const upload = multer({ storage, fileFilter });
+const upload = multer({ storage: storage });
 
 module.exports = upload;

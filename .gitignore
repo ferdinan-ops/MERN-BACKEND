@@ -1,4 +1,5 @@
-/node_modules
+node_modules
 yarn.lock
 .env
-.api-planning.txt
+api-planning.txt
+images
