@@ -1,9 +1,15 @@
-const express = require("express");
+const upload = require("../middlewares/upload");
 const { body } = require("express-validator");
-const { createBlog } = require("../controllers/blog");
-const upload = require("../middleware/upload");
-
+const express = require("express");
 const router = express.Router();
+const {
+  createBlog,
+  getAllBlog,
+  getBlogById,
+  updateBlog,
+  deleteBlog,
+} = require("../controllers/blog");
+
 const blogValidator = [
   body("title")
     .isLength({ min: 5 })
@@ -12,5 +18,9 @@ const blogValidator = [
 ];
 
 router.post("/post", upload.single("image"), blogValidator, createBlog);
+router.get("/posts", getAllBlog);
+router.get("/post/:postId", getBlogById);
+router.put("/post/:postId", upload.single("image"), blogValidator, updateBlog);
+router.delete("/post/:postId", deleteBlog);
 
 module.exports = router;
