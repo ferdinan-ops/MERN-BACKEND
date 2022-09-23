@@ -18,7 +18,7 @@ const blogValidator = [
 ];
 
 router.post("/post", upload.single("image"), blogValidator, createBlog);
-router.get("/posts", getAllBlog);
+router.get("/posts", getAllBlog); // pagination using query router.get("/posts/?page=1&perPage=5", getAllBlog);
 router.get("/post/:postId", getBlogById);
 router.put("/post/:postId", upload.single("image"), blogValidator, updateBlog);
 router.delete("/post/:postId", deleteBlog);

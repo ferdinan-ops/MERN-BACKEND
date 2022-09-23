@@ -32,9 +32,23 @@ const createBlog = async (req, res, next) => {
 };
 
 const getAllBlog = async (req, res, next) => {
+  const currentPage = req.query.page || 1;
+  const perPage = req.query.perPage || 5;
+  let skipItems = (parseInt(currentPage) - 1) * parseInt(perPage);
+  let totalItem;
+
   try {
-    const data = await BlogPost.find();
-    res.status(201).json({ message: "Get All Blog Successfully", data });
+    const totalDoc = await BlogPost.find().countDocuments();
+    const data = await BlogPost.find().skip(skipItems).limit(parseInt(perPage));
+    totalItem = totalDoc;
+
+    res.status(201).json({
+      message: "Get All Blog Successfully",
+      data,
+      total_data: totalItem,
+      current_page: parseInt(currentPage),
+      per_page: parseInt(perPage),
+    });
   } catch (error) {
     res.status(400).json({ message: "Can't get all blog", error });
   }
